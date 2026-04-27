@@ -81,9 +81,18 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
     ${Ri()}
     <main class="container animate-in" style="padding-bottom: 100px;">
       ${Bi()}
+      
+      <div class="glass-card" style="margin-bottom: 24px; padding: 20px; background: linear-gradient(135deg, var(--primary), var(--m-purple)); color: white; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h3 style="font-size: 1rem; margin-bottom: 4px;">¿Eres nuevo?</h3>
+          <p style="font-size: 0.8rem; opacity: 0.9;">Regístrate para pedir libros</p>
+        </div>
+        <button class="btn" style="background: white; color: var(--primary); padding: 8px 16px;" id="go-to-register">Registrarme</button>
+      </div>
+
       <h2 style="font-size: 1.1rem; color: var(--primary); margin-bottom: 16px;">Libros en ${Q}</h2>
       ${Ai?`<div style="text-align: center; padding: 40px;">Cargando...</div>`:`
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+        <div style="grid-template-columns: repeat(2, 1fr); display: grid; gap: 12px;">
           ${Hi().map(e=>Vi(e)).join(``)}
         </div>
       `}
@@ -95,7 +104,7 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
     </header>
     <main class="container animate-in" style="padding-bottom: 100px;">
       ${Bi()}
-      <div id="results-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+      <div id="results-grid" style="grid-template-columns: repeat(2, 1fr); display: grid; gap: 12px;">
         ${Hi().map(e=>Vi(e)).join(``)}
       </div>
     </main>
@@ -103,12 +112,15 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
   `,register:()=>`
     ${Ri(!1)}
     <main class="container animate-in" style="padding-bottom: 100px;">
-      <div class="glass-card" style="padding: 24px;">
-        <h2 style="margin-bottom: 16px;">Mi Perfil</h2>
+      <div class="glass-card" style="padding: 24px; border: 1px solid var(--primary-light);">
+        <h2 style="margin-bottom: 8px; color: var(--primary);">Mi Perfil</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;">Regístrate una sola vez para poder solicitar libros en cualquier cabina.</p>
         <form id="register-form">
-          <label style="display: block; margin-bottom: 8px;">Nombre Completo</label>
-          <input type="text" id="reg-name" class="glass-input" style="width: 100%; margin-bottom: 20px;" required>
-          <button type="submit" class="btn btn-primary" id="btn-submit-register">Guardar Perfil</button>
+          <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem;">Nombre Completo</label>
+            <input type="text" id="reg-name" class="glass-input" style="width: 100%;" placeholder="Tu nombre como aparece en el INE" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;" id="btn-submit-register">Guardar mi Registro</button>
         </form>
       </div>
     </main>
@@ -120,11 +132,12 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
       <p style="color: var(--text-muted); margin-bottom: 24px;">Ingresa el PIN de seguridad</p>
       <input type="password" id="admin-pin-input" maxlength="4" style="font-size: 2rem; text-align: center; width: 140px; padding: 10px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 20px;">
       <button class="btn btn-primary" id="btn-login-admin" style="width: 100%;">Entrar al Panel</button>
+      <button class="btn-link" id="back-to-home" style="margin-top: 24px; display: block; width: 100%;">Volver al inicio</button>
     </main>
   `,adminDashboard:()=>`
     <header class="container" style="padding-top: 20px; padding-bottom: 10px; background: white; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 10;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="font-size: 1rem;">Administrador: <strong>${Q===`Todas`?`Nigromante`:Q}</strong></h2>
+        <h2 style="font-size: 1rem;">Admin: <strong>${Q===`Todas`?`Nigromante`:Q}</strong></h2>
         <button class="btn-outline" id="btn-logout" style="padding: 4px 8px; font-size: 0.7rem;">Salir</button>
       </div>
     </header>
@@ -164,4 +177,4 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
         </form>
       </section>
     </main>
-  `};function $(){let e=Ui[Z===`admin`?ji?`adminDashboard`:`adminLogin`:Z];Ti.innerHTML=typeof e==`function`?e():`View not found`;let t=document.querySelector(`#logo-m`);t&&t.addEventListener(`dblclick`,()=>{Z=`admin`,$()}),document.querySelectorAll(`.filter-chip`).forEach(e=>{e.addEventListener(`click`,()=>{Q=e.dataset.cabin,Z===`admin`?Li():$()})});let n=document.querySelector(`#admin-pin-input`),r=document.querySelector(`#btn-login-admin`);r&&r.addEventListener(`click`,()=>{n.value===Mi?(ji=!0,Li()):(alert(`PIN Incorrecto`),n.value=``)});let i=document.querySelector(`#btn-logout`);i&&i.addEventListener(`click`,()=>{ji=!1,Z=`home`,$()});let a=document.querySelector(`#loan-form`);a&&a.addEventListener(`submit`,async e=>{e.preventDefault();let t=document.querySelector(`#loan-user`).value,n=document.querySelector(`#loan-book`).value,r=Q===`Todas`?`Nigromante`:Q;if(!t||!n)return alert(`Selecciona usuario y libro`);await X.from(`prestamos`).insert([{libro_id:n,usuario_id:t,cabina_prestamo:r}]),await X.from(`libros`).update({disponible:!1}).eq(`id`,n),alert(`Préstamo registrado en `+r),Ii(),Li()}),document.querySelectorAll(`.btn-receive`).forEach(e=>{e.addEventListener(`click`,async()=>{let{error:t}=await X.from(`prestamos`).update({devuelto:!0}).eq(`id`,e.dataset.id),{error:n}=await X.from(`libros`).update({disponible:!0}).eq(`id`,e.dataset.bookid);!t&&!n&&(Ii(),Li())})}),document.querySelectorAll(`.nav-item`).forEach(e=>{e.addEventListener(`click`,t=>{t.preventDefault(),Z=e.dataset.view,$()})});let o=document.querySelector(`#search-input`);o&&(o.focus(),o.setSelectionRange(ki.length,ki.length),o.addEventListener(`input`,e=>{ki=e.target.value;let t=document.querySelector(`#results-grid`);t&&(t.innerHTML=Hi().map(e=>Vi(e)).join(``))}));let s=document.querySelector(`#register-form`);s&&s.addEventListener(`submit`,async e=>{e.preventDefault(),await X.from(`registros`).insert([{nombre_completo:document.querySelector(`#reg-name`).value}]),alert(`Perfil guardado`),Z=`home`,$()})}Ii();
+  `};function $(){let e=Ui[Z===`admin`?ji?`adminDashboard`:`adminLogin`:Z];Ti.innerHTML=typeof e==`function`?e():`View not found`;let t=document.querySelector(`#logo-m`);t&&t.addEventListener(`dblclick`,()=>{Z=`admin`,$()}),document.querySelectorAll(`.filter-chip`).forEach(e=>{e.addEventListener(`click`,()=>{Q=e.dataset.cabin,Z===`admin`?Li():$()})});let n=document.querySelector(`#go-to-register`);n&&n.addEventListener(`click`,()=>{Z=`register`,$()});let r=document.querySelector(`#back-to-home`);r&&r.addEventListener(`click`,()=>{Z=`home`,$()});let i=document.querySelector(`#admin-pin-input`),a=document.querySelector(`#btn-login-admin`);a&&a.addEventListener(`click`,()=>{i.value===Mi?(ji=!0,Li()):(alert(`PIN Incorrecto`),i.value=``)});let o=document.querySelector(`#btn-logout`);o&&o.addEventListener(`click`,()=>{ji=!1,Z=`home`,$()});let s=document.querySelector(`#loan-form`);s&&s.addEventListener(`submit`,async e=>{e.preventDefault();let t=document.querySelector(`#loan-user`).value,n=document.querySelector(`#loan-book`).value,r=Q===`Todas`?`Nigromante`:Q;if(!t||!n)return alert(`Selecciona usuario y libro`);await X.from(`prestamos`).insert([{libro_id:n,usuario_id:t,cabina_prestamo:r}]),await X.from(`libros`).update({disponible:!1}).eq(`id`,n),alert(`Préstamo registrado en `+r),Ii(),Li()}),document.querySelectorAll(`.btn-receive`).forEach(e=>{e.addEventListener(`click`,async()=>{let{error:t}=await X.from(`prestamos`).update({devuelto:!0}).eq(`id`,e.dataset.id),{error:n}=await X.from(`libros`).update({disponible:!0}).eq(`id`,e.dataset.bookid);!t&&!n&&(Ii(),Li())})}),document.querySelectorAll(`.nav-item`).forEach(e=>{e.addEventListener(`click`,t=>{t.preventDefault(),Z=e.dataset.view,$()})});let c=document.querySelector(`#search-input`);c&&(c.focus(),c.setSelectionRange(ki.length,ki.length),c.addEventListener(`input`,e=>{ki=e.target.value;let t=document.querySelector(`#results-grid`);t&&(t.innerHTML=Hi().map(e=>Vi(e)).join(``))}));let l=document.querySelector(`#register-form`);l&&l.addEventListener(`submit`,async e=>{e.preventDefault();let t=document.querySelector(`#reg-name`).value,n=document.querySelector(`#btn-submit-register`);n.disabled=!0,n.innerText=`Guardando...`;let{error:r}=await X.from(`registros`).insert([{nombre_completo:t}]);r?(alert(`Error al registrar: `+r.message),n.disabled=!1,n.innerText=`Guardar mi Registro`):(alert(`¡Registro exitoso! Ya puedes solicitar libros en la cabina.`),Z=`home`,$())})}Ii();
