@@ -1,0 +1,20 @@
+{
+  "name": "Cabina Biblioteca Morelia",
+  "short_name": "Cabina",
+  "start_url": "/cabina-biblioteca/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#433a6f",
+  "icons": [
+    {
+      "src": "logo_final.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo_final.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
