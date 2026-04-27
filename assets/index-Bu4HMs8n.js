@@ -114,13 +114,23 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
     <main class="container animate-in" style="padding-bottom: 100px;">
       <div class="glass-card" style="padding: 24px; border: 1px solid var(--primary-light);">
         <h2 style="margin-bottom: 8px; color: var(--primary);">Mi Perfil</h2>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;">Regístrate una sola vez para poder solicitar libros en cualquier cabina.</p>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;">Completa tu registro subiendo una foto de tu identificación (INE).</p>
         <form id="register-form">
           <div style="margin-bottom: 20px;">
             <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem;">Nombre Completo</label>
-            <input type="text" id="reg-name" class="glass-input" style="width: 100%;" placeholder="Tu nombre como aparece en el INE" required>
+            <input type="text" id="reg-name" class="glass-input" style="width: 100%;" placeholder="Nombre completo" required>
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%;" id="btn-submit-register">Guardar mi Registro</button>
+          
+          <div style="margin-bottom: 24px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem;">Foto de Identificación (INE)</label>
+            <div id="photo-preview-container" class="upload-zone" style="width: 100%; min-height: 140px; border: 2px dashed #cbd5e1; border-radius: var(--radius-md); display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; cursor: pointer; overflow: hidden; padding: 10px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 8px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+              <span style="font-size: 0.8rem; color: #64748b;">Toca para tomar foto o subir</span>
+              <input type="file" id="reg-photo" accept="image/*" capture="environment" style="display: none;">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;" id="btn-submit-register">Finalizar Registro</button>
         </form>
       </div>
     </main>
@@ -163,6 +173,19 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
       </section>
 
       <section>
+        <h3 style="font-size: 0.9rem; margin-bottom: 12px;">Usuarios Registrados</h3>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 32px;">
+          ${Oi.slice(0,5).map(e=>`
+            <div style="display: flex; align-items: center; gap: 12px; padding: 8px; border-bottom: 1px solid #f1f5f9;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: #f1f5f9; overflow: hidden;">
+                ${e.ine_foto_url?`<img src="${e.ine_foto_url}" style="width: 100%; height: 100%; object-fit: cover;">`:``}
+              </div>
+              <span style="font-size: 0.85rem;">${e.nombre_completo}</span>
+              ${e.ine_foto_url?`<a href="${e.ine_foto_url}" target="_blank" style="margin-left: auto; font-size: 0.7rem; color: var(--primary);">Ver INE</a>`:``}
+            </div>
+          `).join(``)}
+        </div>
+
         <h3 style="font-size: 0.9rem; margin-bottom: 12px;">Nuevo Préstamo</h3>
         <form id="loan-form" class="glass-card" style="padding: 16px;">
           <select id="loan-user" class="glass-input" style="width: 100%; margin-bottom: 12px;">
@@ -177,4 +200,4 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
         </form>
       </section>
     </main>
-  `};function $(){let e=Ui[Z===`admin`?ji?`adminDashboard`:`adminLogin`:Z];Ti.innerHTML=typeof e==`function`?e():`View not found`;let t=document.querySelector(`#logo-m`);t&&t.addEventListener(`dblclick`,()=>{Z=`admin`,$()}),document.querySelectorAll(`.filter-chip`).forEach(e=>{e.addEventListener(`click`,()=>{Q=e.dataset.cabin,Z===`admin`?Li():$()})});let n=document.querySelector(`#go-to-register`);n&&n.addEventListener(`click`,()=>{Z=`register`,$()});let r=document.querySelector(`#back-to-home`);r&&r.addEventListener(`click`,()=>{Z=`home`,$()});let i=document.querySelector(`#admin-pin-input`),a=document.querySelector(`#btn-login-admin`);a&&a.addEventListener(`click`,()=>{i.value===Mi?(ji=!0,Li()):(alert(`PIN Incorrecto`),i.value=``)});let o=document.querySelector(`#btn-logout`);o&&o.addEventListener(`click`,()=>{ji=!1,Z=`home`,$()});let s=document.querySelector(`#loan-form`);s&&s.addEventListener(`submit`,async e=>{e.preventDefault();let t=document.querySelector(`#loan-user`).value,n=document.querySelector(`#loan-book`).value,r=Q===`Todas`?`Nigromante`:Q;if(!t||!n)return alert(`Selecciona usuario y libro`);await X.from(`prestamos`).insert([{libro_id:n,usuario_id:t,cabina_prestamo:r}]),await X.from(`libros`).update({disponible:!1}).eq(`id`,n),alert(`Préstamo registrado en `+r),Ii(),Li()}),document.querySelectorAll(`.btn-receive`).forEach(e=>{e.addEventListener(`click`,async()=>{let{error:t}=await X.from(`prestamos`).update({devuelto:!0}).eq(`id`,e.dataset.id),{error:n}=await X.from(`libros`).update({disponible:!0}).eq(`id`,e.dataset.bookid);!t&&!n&&(Ii(),Li())})}),document.querySelectorAll(`.nav-item`).forEach(e=>{e.addEventListener(`click`,t=>{t.preventDefault(),Z=e.dataset.view,$()})});let c=document.querySelector(`#search-input`);c&&(c.focus(),c.setSelectionRange(ki.length,ki.length),c.addEventListener(`input`,e=>{ki=e.target.value;let t=document.querySelector(`#results-grid`);t&&(t.innerHTML=Hi().map(e=>Vi(e)).join(``))}));let l=document.querySelector(`#register-form`);l&&l.addEventListener(`submit`,async e=>{e.preventDefault();let t=document.querySelector(`#reg-name`).value,n=document.querySelector(`#btn-submit-register`);n.disabled=!0,n.innerText=`Guardando...`;let{error:r}=await X.from(`registros`).insert([{nombre_completo:t}]);r?(alert(`Error al registrar: `+r.message),n.disabled=!1,n.innerText=`Guardar mi Registro`):(alert(`¡Registro exitoso! Ya puedes solicitar libros en la cabina.`),Z=`home`,$())})}Ii();
+  `};function $(){let e=Ui[Z===`admin`?ji?`adminDashboard`:`adminLogin`:Z];Ti.innerHTML=typeof e==`function`?e():`View not found`;let t=document.querySelector(`#logo-m`);t&&t.addEventListener(`dblclick`,()=>{Z=`admin`,$()}),document.querySelectorAll(`.filter-chip`).forEach(e=>{e.addEventListener(`click`,()=>{Q=e.dataset.cabin,Z===`admin`?Li():$()})});let n=document.querySelector(`#reg-photo`),r=document.querySelector(`#photo-preview-container`);r&&n&&(r.addEventListener(`click`,()=>n.click()),n.addEventListener(`change`,e=>{let t=e.target.files[0];if(t){let e=new FileReader;e.onload=e=>{r.innerHTML=`<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-sm);">`},e.readAsDataURL(t)}}));let i=document.querySelector(`#go-to-register`);i&&i.addEventListener(`click`,()=>{Z=`register`,$()});let a=document.querySelector(`#back-to-home`);a&&a.addEventListener(`click`,()=>{Z=`home`,$()});let o=document.querySelector(`#admin-pin-input`),s=document.querySelector(`#btn-login-admin`);s&&s.addEventListener(`click`,()=>{o.value===Mi?(ji=!0,Li()):(alert(`PIN Incorrecto`),o.value=``)});let c=document.querySelector(`#btn-logout`);c&&c.addEventListener(`click`,()=>{ji=!1,Z=`home`,$()});let l=document.querySelector(`#loan-form`);l&&l.addEventListener(`submit`,async e=>{e.preventDefault();let t=document.querySelector(`#loan-user`).value,n=document.querySelector(`#loan-book`).value,r=Q===`Todas`?`Nigromante`:Q;if(!t||!n)return alert(`Selecciona usuario y libro`);await X.from(`prestamos`).insert([{libro_id:n,usuario_id:t,cabina_prestamo:r}]),await X.from(`libros`).update({disponible:!1}).eq(`id`,n),alert(`Préstamo registrado en `+r),Ii(),Li()}),document.querySelectorAll(`.btn-receive`).forEach(e=>{e.addEventListener(`click`,async()=>{let{error:t}=await X.from(`prestamos`).update({devuelto:!0}).eq(`id`,e.dataset.id),{error:n}=await X.from(`libros`).update({disponible:!0}).eq(`id`,e.dataset.bookid);!t&&!n&&(Ii(),Li())})}),document.querySelectorAll(`.nav-item`).forEach(e=>{e.addEventListener(`click`,t=>{t.preventDefault(),Z=e.dataset.view,$()})});let u=document.querySelector(`#search-input`);u&&(u.focus(),u.setSelectionRange(ki.length,ki.length),u.addEventListener(`input`,e=>{ki=e.target.value;let t=document.querySelector(`#results-grid`);t&&(t.innerHTML=Hi().map(e=>Vi(e)).join(``))}));let d=document.querySelector(`#register-form`);d&&d.addEventListener(`submit`,async e=>{e.preventDefault();let t=document.querySelector(`#reg-name`).value,n=document.querySelector(`#reg-photo`).files[0],r=document.querySelector(`#btn-submit-register`);if(!n)return alert(`Por favor, sube una foto de tu identificación.`);r.disabled=!0,r.innerText=`Subiendo datos...`;let i=`${Date.now()}-${t.replace(/\s/g,`_`)}.jpg`,{data:a,error:o}=await X.storage.from(`ines`).upload(i,n);if(o){alert(`Error al subir foto: `+o.message),r.disabled=!1,r.innerText=`Finalizar Registro`;return}let{data:{publicUrl:s}}=X.storage.from(`ines`).getPublicUrl(i),{error:c}=await X.from(`registros`).insert([{nombre_completo:t,ine_foto_url:s}]);c?(alert(`Error al registrar: `+c.message),r.disabled=!1,r.innerText=`Finalizar Registro`):(alert(`¡Registro completo! Ya puedes solicitar libros.`),Z=`home`,$())})}Ii();
