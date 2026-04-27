@@ -1,4 +1,4 @@
-(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e=`/cabina-biblioteca/assets/m_logo-0-Gumeyx.png`,t=`/cabina-biblioteca/assets/cultura_logo-Dtdijg-U.png`,n=`/cabina-biblioteca/assets/logo_propuesta-DvEBNnV2.png`,r=`/cabina-biblioteca/assets/book1-BtgLBJiz.png`,i=`/cabina-biblioteca/assets/book2-qsAmh8s4.png`,a=`/cabina-biblioteca/assets/book3-muGTD0Xe.png`,o=`/cabina-biblioteca/assets/book4-Ck7tEvfn.png`,s=document.querySelector(`#app`),c=[{id:1,title:`Don Quijote de la Mancha`,author:`Miguel de Cervantes`,image:r,category:`Clásicos`,available:!0},{id:2,title:`Pedro Páramo`,author:`Juan Rulfo`,image:i,category:`Realismo Mágico`,available:!0},{id:3,title:`Rayuela`,author:`Julio Cortázar`,image:a,category:`Ficción`,available:!0},{id:4,title:`Cien años de soledad`,author:`Gabriel García Márquez`,image:o,category:`Realismo Mágico`,available:!0}],l=`home`,u=``,d=(r=!0)=>`
+(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin===`use-credentials`?t.credentials=`include`:e.crossOrigin===`anonymous`?t.credentials=`omit`:t.credentials=`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e=`/cabina-biblioteca/assets/m_logo-0-Gumeyx.png`,t=`/cabina-biblioteca/assets/cultura_logo-Dtdijg-U.png`,n=`/cabina-biblioteca/assets/logo_propuesta-DvEBNnV2.png`,r=`/cabina-biblioteca/assets/book1-BtgLBJiz.png`,i=`/cabina-biblioteca/assets/book2-qsAmh8s4.png`,a=`/cabina-biblioteca/assets/book3-muGTD0Xe.png`,o=`/cabina-biblioteca/assets/book4-Ck7tEvfn.png`,s=document.querySelector(`#app`),c=[{id:1,title:`Don Quijote de la Mancha`,author:`Miguel de Cervantes`,image:r,category:`Clásicos`,available:!0},{id:2,title:`Pedro Páramo`,author:`Juan Rulfo`,image:i,category:`Realismo Mágico`,available:!0},{id:3,title:`Rayuela`,author:`Julio Cortázar`,image:a,category:`Ficción`,available:!0},{id:4,title:`Cien años de soledad`,author:`Gabriel García Márquez`,image:o,category:`Realismo Mágico`,available:!0},{id:5,title:`Aura`,author:`Carlos Fuentes`,category:`Ficción`,available:!0},{id:6,title:`La tregua`,author:`Mario Benedetti`,category:`Novela`,available:!0},{id:7,title:`El llano en llamas`,author:`Juan Rulfo`,category:`Cuentos`,available:!0}],l=`home`,u=``,d=(r=!0)=>`
   <header class="container" style="padding-top: 40px; padding-bottom: 20px;">
     <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 32px;">
       <img src="${t}" alt="Cultura" style="height: 35px; width: auto; object-fit: contain;">
@@ -30,11 +30,19 @@
     </a>
   </nav>
 `,p=e=>`
-  <div class="glass-card book-card" style="padding: 12px; cursor: pointer;" data-id="${e.id}">
-    <img src="${e.image}" alt="${e.title}" style="width: 100%; height: 200px; object-fit: cover; border-radius: var(--radius-sm); margin-bottom: 12px; box-shadow: var(--shadow-sm);">
-    <h3 style="font-size: 0.9rem; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${e.title}</h3>
-    <p style="font-size: 0.75rem; color: var(--text-muted);">${e.author}</p>
-    <div style="margin-top: 8px; display: flex; align-items: center; gap: 4px;">
+  <div class="glass-card book-card" style="padding: 12px; cursor: pointer; display: flex; flex-direction: column; height: 100%;" data-id="${e.id}">
+    ${e.image?`
+      <img src="${e.image}" alt="${e.title}" style="width: 100%; height: 180px; object-fit: cover; border-radius: var(--radius-sm); margin-bottom: 12px; box-shadow: var(--shadow-sm);">
+    `:`
+      <div style="width: 100%; height: 180px; background: linear-gradient(135deg, var(--primary-light), var(--m-purple-light)); border-radius: var(--radius-sm); margin-bottom: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; color: var(--primary);">
+        <span style="font-weight: 700; font-size: 0.8rem; line-height: 1.2;">${e.title}</span>
+      </div>
+    `}
+    <div style="flex: 1;">
+      <h3 style="font-size: 0.95rem; margin-bottom: 4px; color: var(--primary); font-weight: 700;">${e.title}</h3>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">${e.author}</p>
+    </div>
+    <div style="margin-top: auto; display: flex; align-items: center; gap: 4px;">
       <span class="badge" style="background: ${e.available?`#dcfce7`:`#fee2e2`}; color: ${e.available?`#166534`:`#991b1b`}; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px;">
         ${e.available?`Disponible`:`Prestado`}
       </span>
@@ -49,8 +57,9 @@
           <a href="#" class="text-link" id="view-all">Explorar todo</a>
         </div>
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
-          ${c.slice(0,4).map(e=>p(e)).join(``)}
+          ${c.slice(0,8).map(e=>p(e)).join(``)}
         </div>
+
       </section>
     </main>
     ${f()}
