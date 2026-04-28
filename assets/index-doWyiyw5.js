@@ -164,8 +164,8 @@ Línea: `+n),!1};var Y=bi(`https://znzrgemvqkkvvgdztrdp.supabase.co`,`sb_publish
               <div id="photo-preview-container" class="upload-zone" style="width: 100%; min-height: 140px; border: 2px dashed #cbd5e1; border-radius: var(--radius-md); display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; cursor: pointer; overflow: hidden; padding: 10px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 8px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
                 <span style="font-size: 0.8rem; color: #64748b;">Toca para tomar foto</span>
-                <input type="file" id="reg-photo" accept="image/*" capture="environment" style="display: none;">
               </div>
+              <input type="file" id="reg-photo" accept="image/*" capture="environment" style="display: none;">
             </div>
 
           </div>
