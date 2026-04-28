@@ -167,7 +167,7 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 100%;" id="btn-submit-register">Finalizar Registro</button>
+            <button type="button" class="btn btn-primary" style="width: 100%; margin-top: 10px; padding: 16px; font-weight: 800;" id="btn-submit-register" onclick="window.handleRegister()">Finalizar Registro</button>
           </form>
         </div>
       </main>
